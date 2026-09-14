@@ -1,5 +1,18 @@
 # AstroNvim Template
 
+## Modified
+
+**IMPORTANT**: This was forked and modified to work with Odin along with some personal configs.
+
+Websites referenced:
+
+* https://github.com/lordhippo/odin-vscode
+* https://github.com/DanielGavin/ols
+* https://github.com/thetarnav/odin-lldb
+* https://docs.astronvim.com/
+
+## Original
+
 **NOTE:** This is for AstroNvim v6+
 
 A template for getting started with [AstroNvim](https://github.com/AstroNvim/AstroNvim)
