@@ -1,4 +1,5 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- NOTE: Needed for word wrapping
+--if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
 -- Configuration documentation can be found with `:h astrocore`
@@ -21,8 +22,14 @@ return {
     },
     -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
     diagnostics = {
-      virtual_text = true,
+      virtual_text = false,
       underline = true,
+
+      -- Wrap diagnostic messages
+      --float = { max_width = 80, border = "rounded" },
+
+      -- Show expanded message for every item
+      virtual_lines = true,
     },
     -- passed to `vim.filetype.add`
     filetypes = {
@@ -44,7 +51,19 @@ return {
         number = true, -- sets vim.opt.number
         spell = false, -- sets vim.opt.spell
         signcolumn = "yes", -- sets vim.opt.signcolumn to yes
-        wrap = false, -- sets vim.opt.wrap
+        --wrap = false, -- sets vim.opt.wrap
+
+        -- soft wrap
+        wrap = true, -- wrap long lines on screen
+        linebreak = true, -- break at word boundaries, not mid-word
+        breakindent = true, -- wrapped lines keep their indentation
+        showbreak = "↪ ", -- optional marker on wrapped lines
+
+        -- ruler line at column 80
+        colorcolumn = "80",
+
+        -- hard wrap width
+        textwidth = 80,
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
@@ -79,6 +98,41 @@ return {
 
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
+
+        -- NOTE: Added below for showing buffer source in sidebar
+        ["<Leader>bv"] = { "<cmd>Neotree buffers toggle left<cr>", desc = "Buffers sidebar" },
+
+        -- NOTE: Added for block visual mode (vim) without affecting existing
+        -- key bindings
+        -- Mostly for making modifications on multiple lines at once
+        ["<Leader>v"] = { "<C-v>", desc = "Block visual mode" },
+
+        -- NOTE: Added for really long diagnostic messages
+        ["<Leader>lm"] = {
+          function()
+            local diags = vim.diagnostic.get(0, { lnum = vim.fn.line "." - 1 })
+            if #diags == 0 then return vim.notify "No diagnostics on this line" end
+            local lines = {}
+            for _, d in ipairs(diags) do
+              local src = d.source and (" [" .. d.source .. "]") or ""
+              table.insert(lines, "── " .. vim.diagnostic.severity[d.severity] .. src .. " ──")
+              vim.list_extend(lines, vim.split(d.message, "\n"))
+              table.insert(lines, "")
+            end
+            vim.cmd "botright 15new"
+            vim.bo.buftype, vim.bo.bufhidden, vim.bo.swapfile = "nofile", "wipe", false
+            vim.wo.wrap, vim.wo.linebreak = true, true
+            vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+            vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = true })
+          end,
+          desc = "Show full diagnostic in buffer",
+        },
+      },
+      v = {
+        -- NOTE: Does NOT work due to bug? Use plugin instead (mini-move)
+        -- NOTE: Added for visual mode block move
+        --["<A-j>"] = { ":m '>+1<CR>gv=gv", desc = "Move selection down" },
+        --["<A-k>"] = { ":m '<-2<CR>gv=gv", desc = "Move selection up" },
       },
     },
   },

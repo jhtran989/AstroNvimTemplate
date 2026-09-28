@@ -11,4 +11,7 @@ return {
   { import = "astrocommunity.pack.lua" },
   -- import/override with your plugins folder
   { import = "astrocommunity.debugging.persistent-breakpoints-nvim" },
+  -- Markdown stuff
+  { import = "astrocommunity.pack.markdown" },
+  { import = "astrocommunity.markdown-and-latex.markdown-preview-nvim" },
 }

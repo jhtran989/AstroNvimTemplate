@@ -1,4 +1,5 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- NOTE: Needed for transparent background
+--if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- AstroUI provides the basis for configuring the AstroNvim User Interface
 -- Configuration documentation can be found with `:h astroui`
@@ -16,6 +17,14 @@ return {
     highlights = {
       init = { -- this table overrides highlights in all themes
         -- Normal = { bg = "#000000" },
+        Normal = { bg = "NONE", ctermbg = "NONE" },
+        NormalNC = { bg = "NONE", ctermbg = "NONE" },
+        NormalFloat = { bg = "NONE", ctermbg = "NONE" },
+        FloatBorder = { bg = "NONE", ctermbg = "NONE" },
+        SignColumn = { bg = "NONE", ctermbg = "NONE" },
+        EndOfBuffer = { bg = "NONE", ctermbg = "NONE" },
+        NeoTreeNormal = { bg = "NONE", ctermbg = "NONE" },
+        NeoTreeNormalNC = { bg = "NONE", ctermbg = "NONE" },
       },
       astrodark = { -- a table of overrides/changes when applying the astrotheme theme
         -- Normal = { bg = "#000000" },
