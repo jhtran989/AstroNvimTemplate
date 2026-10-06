@@ -1,4 +1,6 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- NOTE: Added below for function call selection keybindings (select entire and just
+-- args)
+--if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- Customize Treesitter
 -- --------------------
@@ -19,6 +21,19 @@ return {
         "vim",
         -- add more arguments for adding more treesitter parsers
       },
+      textobjects = {
+        select = {
+          select_textobject = {
+            ["aF"] = { query = "@call.outer", desc = "around function call" },
+            --["iF"] = { query = "@call.inner", desc = "inside function call (args)" },
+            --["iF"] = { query = "@call.args", desc = "inside call (all args)" },
+          },
+        },
+      },
+    },
+    mappings = {
+      x = { iF = { function() require("user.call_args").select() end, desc = "inside call (all args)" } },
+      o = { iF = { function() require("user.call_args").select() end, desc = "inside call (all args)" } },
     },
   },
 }
